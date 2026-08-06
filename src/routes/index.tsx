@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 
+import { SickBackgroundsSection } from "@/components/sick-backgrounds-section";
 import { HeroFuturistic } from "@/components/ui/hero-futuristic";
 
 export const Route = createFileRoute("/")({
@@ -25,9 +27,21 @@ export const Route = createFileRoute("/")({
 });
 
 function AetheraFrame() {
+  // The homepage is all-black (hero + gradient showcase + the embedded app),
+  // but <body>'s theme background is light. Without this, overscroll bounce
+  // and any hydration flash show white behind the black content.
+  useEffect(() => {
+    const previous = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = "#000";
+    return () => {
+      document.body.style.backgroundColor = previous;
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="bg-black">
       <HeroFuturistic />
+      <SickBackgroundsSection />
       <iframe
         src="/api/public/aethera"
         title="Aethera"
