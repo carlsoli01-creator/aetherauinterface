@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TosRouteImport } from './routes/tos'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as HeroDemoRouteImport } from './routes/hero-demo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicAetheraRouteImport } from './routes/api/public/aethera'
 
@@ -22,6 +23,11 @@ const TosRoute = TosRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeroDemoRoute = HeroDemoRouteImport.update({
+  id: '/hero-demo',
+  path: '/hero-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const ApiPublicAetheraRoute = ApiPublicAetheraRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hero-demo': typeof HeroDemoRoute
   '/privacy': typeof PrivacyRoute
   '/tos': typeof TosRoute
   '/api/public/aethera': typeof ApiPublicAetheraRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hero-demo': typeof HeroDemoRoute
   '/privacy': typeof PrivacyRoute
   '/tos': typeof TosRoute
   '/api/public/aethera': typeof ApiPublicAetheraRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/hero-demo': typeof HeroDemoRoute
   '/privacy': typeof PrivacyRoute
   '/tos': typeof TosRoute
   '/api/public/aethera': typeof ApiPublicAetheraRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacy' | '/tos' | '/api/public/aethera'
+  fullPaths: '/' | '/hero-demo' | '/privacy' | '/tos' | '/api/public/aethera'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy' | '/tos' | '/api/public/aethera'
-  id: '__root__' | '/' | '/privacy' | '/tos' | '/api/public/aethera'
+  to: '/' | '/hero-demo' | '/privacy' | '/tos' | '/api/public/aethera'
+  id:
+    | '__root__'
+    | '/'
+    | '/hero-demo'
+    | '/privacy'
+    | '/tos'
+    | '/api/public/aethera'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HeroDemoRoute: typeof HeroDemoRoute
   PrivacyRoute: typeof PrivacyRoute
   TosRoute: typeof TosRoute
   ApiPublicAetheraRoute: typeof ApiPublicAetheraRoute
@@ -85,6 +101,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hero-demo': {
+      id: '/hero-demo'
+      path: '/hero-demo'
+      fullPath: '/hero-demo'
+      preLoaderRoute: typeof HeroDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HeroDemoRoute: HeroDemoRoute,
   PrivacyRoute: PrivacyRoute,
   TosRoute: TosRoute,
   ApiPublicAetheraRoute: ApiPublicAetheraRoute,
